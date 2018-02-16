@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class CanvasManager : MonoBehaviour
 {
-    public GameObject start_Pnl;
-    public GameObject options_Pnl;
-    public GameObject hud_Pnl;
-    public GameObject end_Pnl;
-    public GameObject pause_Pnl;
-	public GameObject achievement_Pnl;
-	public GameObject highScore_Pnl;
 
+    public MenuMethods activeMenu;
 
-    // Use this for initialization
     void Start()
     {
-
+        ShowMenu(activeMenu);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowMenu(MenuMethods _menu)
     {
+        if (activeMenu != null)
+        {
+            activeMenu.isOpen = false;
+        }
 
+        activeMenu = _menu;
+        activeMenu.isOpen = true;
     }
 }
