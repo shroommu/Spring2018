@@ -9,6 +9,4 @@ public class SO_Elf : ScriptableObject {
 
 	public float health;
 	public string charName;
-
-
 }

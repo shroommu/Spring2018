@@ -9,5 +9,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6fe8e3bdbe573847a632b2793434c5b, type: 3}
-  m_Name: Jump
+  m_Name: DoSomething
   m_EditorClassIdentifier: 
