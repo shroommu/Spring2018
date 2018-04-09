@@ -1,6 +1,6 @@
 //Maya ASCII 2017 scene
 //Name: Stewart_Skinning_Start.ma
-//Last modified: Thu, Apr 05, 2018 06:27:05 PM
+//Last modified: Thu, Apr 05, 2018 10:00:07 PM
 //Codeset: 1252
 requires maya "2017";
 requires "stereoCamera" "10.0";
@@ -16,7 +16,7 @@ fileInfo "license" "student";
 createNode transform -s -n "persp";
 	rename -uid "C2D5EB74-4661-3816-599C-6BADC8C6E251";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -71.178427410395159 235.15730996594542 153.1957751879597 ;
+	setAttr ".t" -type "double3" -70.891920514070918 232.93615790593938 150.55843438806525 ;
 	setAttr ".r" -type "double3" -39.938352729185134 -366.19999999999345 7.9981682780726234e-016 ;
 	setAttr ".rp" -type "double3" 0 -1.4210854715202004e-014 -2.8421709430404007e-014 ;
 	setAttr ".rpt" -type "double3" 1.8135573391318624e-014 5.448658461978314e-015 -4.801399686256952e-016 ;
@@ -24,7 +24,7 @@ createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "5F043258-4668-F36D-0C50-10B838E1D78E";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 213.36754114088595;
+	setAttr ".coi" 209.90760340010164;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
