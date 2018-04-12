@@ -1,0 +1,17 @@
+Adobe After Effects v15.0.1 Windows 64 render log for project “SceneSetup02.aep”
+
+Rendering started on 4/12/2018 at 12:06:10 AM
+
+  4/12/2018 12:06:10 AM: Starting composition “Shot10”.
+
+  Output To: C:\Users\Alexa\Documents\Exports\AfterEffects\10_JimSeesFreeParking.avi    4/12/2018 12:06:21 AM: Finished composition “Shot10”.
+
+
+  4/12/2018 12:06:21 AM: Starting composition “Shot8”.
+
+  Output To: C:\Users\Alexa\Documents\Exports\AfterEffects\8_JimReactionShot.avi    4/12/2018 12:07:34 AM: Finished composition “Shot8”.
+
+
+  Total Time Elapsed: 1 Min, 24 Sec
+Log closed on 4/12/2018 at 12:07:34 AM
+
