@@ -1,6 +1,6 @@
 //Maya ASCII 2017 scene
 //Name: turtleRig.ma
-//Last modified: Fri, Apr 13, 2018 09:21:57 PM
+//Last modified: Fri, Apr 13, 2018 07:12:43 PM
 //Codeset: 1252
 requires maya "2017";
 requires "stereoCamera" "10.0";
@@ -16,8 +16,8 @@ fileInfo "license" "student";
 createNode transform -s -n "persp";
 	rename -uid "6599F4CE-42CD-8B3B-9C73-5A9FBD293DC0";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 22.404902798250301 5.6510733240636437 -0.31990215045106385 ;
-	setAttr ".r" -type "double3" 343.19999999956963 83.599999999984604 -1.426655220653229e-014 ;
+	setAttr ".t" -type "double3" 23.243161222389492 2.3194473199475287 -1.359239942689896 ;
+	setAttr ".r" -type "double3" 351.59999999969438 86.39999999998372 0 ;
 	setAttr ".rp" -type "double3" 0 1.7763568394002505e-015 0 ;
 	setAttr ".rpt" -type "double3" 8.7549269178990888e-014 -7.6424854111727949e-014 
 		9.4896674904897981e-015 ;
@@ -3443,6 +3443,7 @@ createNode mesh -n "L_Eye_GeoShapeOrig" -p "L_Eye_Geo";
 	setAttr ".ai_translator" -type "string" "polymesh";
 createNode transform -n "Head_Geo" -p "geometry";
 	rename -uid "8776B6B5-488A-B4CF-603E-388A2FDAA6D4";
+	setAttr ".v" no;
 	setAttr -l on ".tx";
 	setAttr -l on ".ty";
 	setAttr -l on ".tz";
@@ -13281,6 +13282,7 @@ createNode mesh -n "Shell_GeoShapeOrig" -p "Shell_Geo";
 	setAttr ".ai_translator" -type "string" "polymesh";
 createNode transform -n "R_Leg_Geo" -p "geometry";
 	rename -uid "E0F946DD-4BFC-0D8C-6089-488A03ECAC7E";
+	setAttr ".v" no;
 	setAttr -l on ".tx";
 	setAttr -l on ".ty";
 	setAttr -l on ".tz";
@@ -14966,6 +14968,7 @@ createNode joint -n "Shell_Front_Jnt" -p "COG_Jnt";
 		 -1.1102230246251568e-016 0.98381523732202025 0.1791858778280726 0 -1 1.1102230246251568e-016 -1.3322676295501878e-015 0
 		 4.9303806576313238e-032 0.39511251449584961 1.0962429940700531 1;
 	setAttr ".radi" 0.97641443394221172;
+	setAttr ".liw" yes;
 createNode joint -n "Neck_1_Jnt" -p "Shell_Front_Jnt";
 	rename -uid "10910737-4800-7225-E767-9C8BB599438D";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
@@ -15073,10 +15076,6 @@ createNode joint -n "Shell_Rear_Jnt" -p "COG_Jnt";
 	rename -uid "3EA178D4-4221-FD7F-A64E-B2ABBDE02C22";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
 	setAttr ".oc" 1;
-	setAttr ".r" -type "double3" 0 0 0 ;
-	setAttr -av ".rx";
-	setAttr -av ".ry";
-	setAttr -av ".rz";
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jot" -type "string" "none";
@@ -15413,7 +15412,6 @@ createNode materialInfo -n "materialInfo6";
 	rename -uid "BA0B78AC-4C73-47A7-C5B5-1D917032CC6B";
 createNode displayLayer -n "geo_layer";
 	rename -uid "C78C4212-490B-2D85-FE39-1D8EAACE1E7D";
-	setAttr ".dt" 2;
 	setAttr ".do" 1;
 createNode projection -n "projection1";
 	rename -uid "8C14CCE1-46B5-02A2-3888-999E3932F625";
@@ -15673,6 +15671,7 @@ createNode dagPose -n "bindPose1";
 	setAttr ".bp" yes;
 createNode displayLayer -n "skel_LYR";
 	rename -uid "FFE0E149-4640-9DDE-6802-FCB4A7CC0E8C";
+	setAttr ".v" no;
 	setAttr ".do" 2;
 createNode dagPose -n "bindPose2";
 	rename -uid "D800B3BA-4748-1D80-6985-AB9EF9975246";
@@ -24025,7 +24024,7 @@ connectAttr "Shoulder_L_Jnt.obcc" "skinCluster8.ifcl[7]";
 connectAttr "Elbow_L_Jnt.obcc" "skinCluster8.ifcl[8]";
 connectAttr "Wrist_L_Jnt.obcc" "skinCluster8.ifcl[9]";
 connectAttr "bindPose3.msg" "skinCluster8.bp";
-connectAttr "Neck_1_Jnt.msg" "skinCluster8.ptt";
+connectAttr "Wrist_R_Jnt.msg" "skinCluster8.ptt";
 connectAttr "groupParts20.og" "tweak10.ip[0].ig";
 connectAttr "groupId69.id" "tweak10.ip[0].gi";
 connectAttr "groupId69.msg" "tweakSet10.gn" -na;
