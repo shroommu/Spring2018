@@ -149,6 +149,13 @@ selectKey -clear ;
 select -r pCube2 ;
 selectKey -clear ;
 //rename and group//
+$sel
+$obj
+$int = 1
+for ($obj in $sel)
+    rename radio_ + int + _GEO;
+    int++
+$int = 1
 select -r polySurface1 ;
 rename "radioLeg_GEO";
 select -r polySurface2 ;
@@ -213,3 +220,21 @@ rename "Radio";
 
 // clean up history //
 delete -all -constructionHistory;
+
+//add textures//
+select -r Radio ;
+sets -e -forceElement lambert3SG;
+select -r legs_GRP ;
+select -add speakerGrille_GEO ;
+select -add speakerGrille_GEO1 ;
+select -add speakerGrille_GEO2 ;
+select -add radioPowerButton_GEO ;
+sets -e -forceElement lambert2SG;
+// Result: lambert2SG // 
+select -r radioDialFace_GEO ;
+sets -e -forceElement lambert4SG;
+// Result: lambert4SG // 
+select -r radioDialPointer_GEO ;
+sets -e -forceElement lambert3SG;
+select -r antennaBall_GEO ;
+sets -e -forceElement initialShadingGroup;
