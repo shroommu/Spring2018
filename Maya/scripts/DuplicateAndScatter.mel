@@ -1,20 +1,4 @@
-global float $rangeMinX;
-global float $rangeMaxX;
-global float $rangeMinY;
-global float $rangeMaxY;
-global float $rangeMinZ;
-global float $rangeMaxZ;
-global int $dupNum;
-
-global proc DupAndScatter (){
-    
-    global float $rangeMinX = -10;
-    global float $rangeMaxX = 10;
-    global float $rangeMinY = -10;
-    global float $rangeMaxY = 10;
-    global float $rangeMinZ = -10;
-    global float $rangeMaxZ = 10;
-    global int $dupNum = 10;
+global proc DupAndScatter (int $dupNum, int $rangeMinX, int $rangeMaxX, int $rangeMinY, int $rangeMaxY, int $rangeMinZ, int $rangeMaxZ){
     
     //store selected object
     string $sels[] = `ls -selection`;
@@ -44,45 +28,37 @@ global proc DupAndScatter (){
     }
 }
 
-DupAndScatter();
-
-// dialog box in progress
-/*global string $minRangeXField = ""; 
-global string $maxRangeXField = ""; 
-global string $minRangeYField = ""; 
-global string $maxRangeYField = ""; 
-global string $minRangeZField = ""; 
-global string $maxRangeZField = ""; 
-			
-global proc floatValueChanged(string $fieldName, string $valueName) 
-{
-	//global string $floatFieldName;
-				
-	// query the value from the float field
-	$value = `floatField -query -value $fieldName`;
-	$valueName = $value;
-    print ($valueName + $value);
+global proc float QueryValue(string $objName){
+    float $value = `floatField -q -v $objName`;
+    return $value;
 }
 
 {
-	string $window = `window -widthHeight 200 200`;
+    global string $numDups;
+    global string $minXField;
+    global string $maxXField;
+    global string $minYField;
+    global string $maxYField;
+    global string $minZField;
+    global string $maxZField;   
+    
+	string $window = `window -widthHeight 200 250`;
 	frameLayout;
-	gridLayout -numberOfColumns 2 -cellWidthHeight 100 20;
+	gridLayout -numberOfColumns 2 -cellWidthHeight 150 20;
+	    text -label "Duplicate Number";
+		$numDups = `floatField -value 1`;
        text -label "Min Range X";
-		$minRangeXField = `floatField -value 1 -changeCommand "floatValueChanged($minRangeXField, $rangeMinX);"`;
-		text -label "Min Range X";
-		$maxRangeXField = `floatField -value 11 -changeCommand "floatValueChanged($maxRangeXField, $rangeMaxX);"`;
-		text -label "Min Range X";
-		$minRangeYField = `floatField -value 1 -changeCommand "floatValueChanged($minRangeYField, $rangeMinY);"`;
-		text -label "Min Range X";
-		$maxRangeYField = `floatField -value 11 -changeCommand "floatValueChanged($maxRangeYField, $rangeMaxY);"`;
-		text -label "Min Range X";
-		$minRangeZField = `floatField -value 1 -changeCommand "floatValueChanged($minRangeZField, $rangeMinZ);"`;
-		text -label "Min Range X";
-		$maxRangeZField = `floatField -value 11 -changeCommand "floatValueChanged($maxRangeZField, $rangeMaxZ);"`;
-		
-	frameLayout;
-	columnLayout;
-		button -label "Duplicate and scatter" -command "DupAndScatter();";
+		$minXField = `floatField -value -10`;
+		text -label "Max Range X";
+		$maxXField = `floatField -value 10`;
+		text -label "Min Range Y";
+		$minYField = `floatField -value -10`;
+		text -label "Max Range Y";
+		$maxYField = `floatField -value 10`;
+		text -label "Min Range Z";
+		$minZField = `floatField -value -10`;
+		text -label "Max Range Z";
+		$maxZField = `floatField -value 10`;
+		button -label "Duplicate and scatter" -command "DupAndScatter(`QueryValue($numDups)`, `QueryValue($minXField)`, `QueryValue($maxXField)`, `QueryValue($minYField)`, `QueryValue($maxYField)`, `QueryValue($minZField)`, `QueryValue($maxZField)`);";
 	showWindow $window;
-}*/
+}
