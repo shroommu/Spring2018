@@ -1,4 +1,4 @@
-global proc DupAndScatter (int $dupNum, int $rangeMinX, int $rangeMaxX, int $rangeMinY, int $rangeMaxY, int $rangeMinZ, int $rangeMaxZ){
+global proc DupAndScatter (int $dupNum, float $rangeMinX, float $rangeMaxX, float $rangeMinY, float $rangeMaxY, float $rangeMinZ, float $rangeMaxZ){
     
     //store selected object
     string $sels[] = `ls -selection`;
@@ -47,7 +47,7 @@ global proc float QueryValue(string $objName){
 	gridLayout -numberOfColumns 2 -cellWidthHeight 150 20;
 	    text -label "Duplicate Number";
 		$numDups = `floatField -value 1`;
-       text -label "Min Range X";
+        text -label "Min Range X";
 		$minXField = `floatField -value -10`;
 		text -label "Max Range X";
 		$maxXField = `floatField -value 10`;
