@@ -9,7 +9,6 @@ global proc DupAndScatter (int $dupNum, float $rangeMinX, float $rangeMaxX, floa
         //duplicate and assign to $sels
         duplicate -rr $sels;
         $sels = `ls -selection`;
-        print ($sels);
         
         //generate random point
         float $tempX = rand ($rangeMinX, $rangeMaxX);
@@ -18,13 +17,13 @@ global proc DupAndScatter (int $dupNum, float $rangeMinX, float $rangeMaxX, floa
         
         string $sel = $sels[0];
         
-        //move to world 0
-        setAttr ($sel + ".translateX") 0;
-        setAttr ($sel + ".translateY") 0;
-        setAttr ($sel + ".translateZ") 0;
+        //move to random point
+        setAttr ($sel + ".translateX") $tempX;
+        setAttr ($sel + ".translateY") $tempY;
+        setAttr ($sel + ".translateZ") $tempZ;
         
         //move to random point
-        move -r -worldSpace $tempX $tempY $tempZ;
+       // move -r -worldSpace $tempX $tempY $tempZ;
     }
 }
 
@@ -42,8 +41,11 @@ global proc float QueryValue(string $objName){
     global string $minZField;
     global string $maxZField;   
     
-	string $window = `window -widthHeight 200 250`;
-	frameLayout;
+    if ( `window -exists dupAndScatterWDW` ) {
+    deleteUI dupAndScatterWDW; // delete window when it exists
+    }
+    
+	string $window = `window -t "Duplicate and Scatter" -widthHeight 400 250 dupAndScatterWDW`;
 	gridLayout -numberOfColumns 2 -cellWidthHeight 150 20;
 	    text -label "Duplicate Number";
 		$numDups = `floatField -value 1`;

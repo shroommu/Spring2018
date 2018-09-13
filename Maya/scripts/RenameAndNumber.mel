@@ -1,0 +1,60 @@
+global proc RenameAndNumber (string $prefix , string $newName , string $numPad ,  int $newNum , string $suffix)
+{
+    string $sels[] = `ls -selection`;
+    int $arraySize = size($sels);
+    int $numPadSize = size($numPad);
+    string $newNumPad = "";
+    
+    for ($i = 0 ; $i < $numPadSize ; $i++)
+    {
+      $newNumPad = $newNumPad + "0";
+    }
+    
+    for ($i = 0 ; $i < $arraySize ; $i++)
+    {
+        string $newNumPadTemp = $newNumPad + string($newNum);
+        rename $sels[$i] ($prefix + "_" + $newName + "_" + $newNumPadTemp + "_" + $suffix);
+        $newNum++;
+    }
+}
+
+
+global proc int QueryValue(string $objName)
+{
+    int $intValue = `intField -q -v $objName`;
+    return $intValue;
+}
+
+global proc string QueryText(string $objName){
+    string $text = `textField -q -tx $objName`;
+    return $text;
+}
+
+//RenameAndNumber ("prefix", "name", "####", 1, "suffix");
+
+{
+    global string $prefix;
+    global string $name;
+    global string $numPadding;
+    global string $number;
+    global string $suffix;   
+    
+    if ( `window -exists renameAndNumWDW` ) {
+    deleteUI renameAndNumWDW; // delete window when it exists
+    }
+    
+	string $window = `window -t "Rename and Number" -widthHeight 400 200 renameAndNumWDW`;
+	gridLayout -numberOfColumns 2 -cellWidthHeight 150 20;
+	    text -label "Prefix";
+        $prefix = `textField -text "Prefix"`;
+        text -label "Name";
+		 $name = `textField -text "Name"`;
+		 text -label "Number";
+		 $number = `intField -value 1`;
+		 text -label "Number Padding";
+		 $numPadding = `textField -text "##"`;
+		 text -label "Suffix";
+		 $suffix = `textField -text "Suffix"`;
+		 button -label "Rename and Number" -command "RenameAndNumber(`QueryText($prefix)`, `QueryText($name)`, `QueryText($numPadding)`, `QueryValue($number)`, `QueryText($suffix)`)";
+    showWindow $window;
+}
