@@ -22,12 +22,10 @@ global proc DupAndScatter (int $dupNum, float $rangeMinX, float $rangeMaxX, floa
         setAttr ($sel + ".translateY") $tempY;
         setAttr ($sel + ".translateZ") $tempZ;
         
-        //move to random point
-       // move -r -worldSpace $tempX $tempY $tempZ;
     }
 }
 
-global proc float QueryValue(string $objName){
+global proc float QueryFloatValue(string $objName){
     float $value = `floatField -q -v $objName`;
     return $value;
 }
@@ -61,6 +59,6 @@ global proc float QueryValue(string $objName){
 		$minZField = `floatField -value -10`;
 		text -label "Max Range Z";
 		$maxZField = `floatField -value 10`;
-		button -label "Duplicate and scatter" -command "DupAndScatter(`QueryValue($numDups)`, `QueryValue($minXField)`, `QueryValue($maxXField)`, `QueryValue($minYField)`, `QueryValue($maxYField)`, `QueryValue($minZField)`, `QueryValue($maxZField)`);";
+		button -label "Duplicate and scatter" -command "DupAndScatter(`QueryFloatValue($numDups)`, `QueryFloatValue($minXField)`, `QueryFloatValue($maxXField)`, `QueryFloatValue($minYField)`, `QueryFloatValue($maxYField)`, `QueryFloatValue($minZField)`, `QueryFloatValue($maxZField)`);";
 	showWindow $window;
 }
