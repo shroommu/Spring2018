@@ -1,0 +1,29 @@
+global proc SplitParentConstrain()
+{
+    string $sels[] = `ls -sl`;
+    
+    string $constrainerCtrl = $sels[0];
+    //string $constraineeCtrlGrp = $sels[1];
+    //string $constraineeCtrl[] = `listRelatives -children -noIntermediate -shapes`;
+    string $constraineeCtrl = $sels[1];
+    string $constraineeCtrlGrp[] = `listRelatives -parent $constraineeCtrl`;
+
+    print($constraineeCtrlGrp);
+    
+    string $tConst[] = `parentConstraint -name ($constraineeCtrlGrp[0] + "_Translate_Constraint") -skipRotate x -skipRotate y -skipRotate z -maintainOffset $constrainerCtrl $constraineeCtrlGrp[0]`;
+    string $rConst[] = `parentConstraint -name ($constraineeCtrlGrp[0] + "_Rotate_Constraint") -skipTranslate x -skipTranslate y -skipTranslate z -maintainOffset $constrainerCtrl $constraineeCtrlGrp[0]`;
+
+    
+    string $tAttr[] = `addAttr -longName "Translate_Constraint" -k 1 -at long -minValue 0 -maxValue 1 -defaultValue 0 $constraineeCtrl` ;
+    string $rAttr[] = `addAttr -longName "Rotate_Constraint" -k 1 -at long -minValue 0 -maxValue 1 -defaultValue 0 $constraineeCtrl` ;
+    
+    connectAttr -f ($constraineeCtrl + "." + $rAttr[0]) ($rConst[0] + "." + $constrainerCtrl + "W0");
+    connectAttr -f ($constraineeCtrl + "." + $tAttr[0]) ($tConst[0] + "." + $constrainerCtrl + "W0");
+}
+
+SplitParentConstrain();
+
+
+
+//connectAttr -f COG_CTRL.Rotate_Constraint COG_CTRL_GRP_Rotate_Constraint.Transform_CtrlW0;
+// Result: Connected COG_CTRL.Rotate_Constraint to COG_CTRL_GRP_Rotate_Constraint.Transform_CtrlW0. // 

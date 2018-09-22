@@ -1,0 +1,41 @@
+global proc string CreateCircleControl(){
+    string $sels[] = `ls -sl`;
+
+    if (size($sels) != 0)
+    {
+
+        for ($i = 0 ; $i < size($sels) ; $i++)
+        {
+
+            string $control[] = `circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1`;
+            
+            string $controlGroup = `group $control`;
+
+            matchTransform -position -rotation $controlGroup $sels[$i];
+
+            string $tokenizedSel[];
+            int $sizeOfTokenizedSel = `tokenize $sels[$i] "_" $tokenizedSel`;
+
+            string $nameOfControl = "";
+
+            for ($ii = 0 ; $ii < $sizeOfTokenizedSel ; $ii++)
+            {
+                $nameOfControl += $tokenizedSel[$ii] + "_";
+            }
+
+            rename $control[0] ($nameOfControl + "CTRL");
+            rename $controlGroup ($nameOfControl + "CTRL");
+        }
+    }
+
+    else
+    {
+
+    circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1;
+    group;
+
+    }
+    
+}
+
+CreateCircleControl();
