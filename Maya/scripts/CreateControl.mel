@@ -1,5 +1,6 @@
-global proc string CreateCircleControl(){
+global proc CreateControl(string $controlShape, int $jointColor){
     string $sels[] = `ls -sl`;
+    string $control[];
 
     if (size($sels) != 0)
     {
@@ -7,8 +8,25 @@ global proc string CreateCircleControl(){
         for ($i = 0 ; $i < size($sels) ; $i++)
         {
 
-            string $control[] = `circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1`;
-            
+            if($controlShape == "Circle")
+            {
+                $control = `circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1`;
+            }
+
+            else if($controlShape == "Square")
+            {
+                $control = `nurbsSquare -c 0 0 0 -nr 0 1 0 -sl1 1 -sl2 1 -sps 1 -d 3 -ch 1`;
+            }
+
+            else if($controlShape == "Flower")
+            {
+                $control = `circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1`;
+                select -r $control.cv[0] $control.cv[2] $control.cv[4] $control.cv[6] ;
+                scale -r -p 0cm 0cm 0cm -0.339442 -0.339442 -0.339442 ;
+                select $control;
+                performResetTransformations(0);
+            }
+
             string $controlGroup = `group $control`;
 
             matchTransform -position -rotation $controlGroup $sels[$i];
@@ -18,24 +36,117 @@ global proc string CreateCircleControl(){
 
             string $nameOfControl = "";
 
-            for ($ii = 0 ; $ii < $sizeOfTokenizedSel ; $ii++)
+            for ($ii = 0 ; $ii < ($sizeOfTokenizedSel - 1) ; $ii++)
             {
                 $nameOfControl += $tokenizedSel[$ii] + "_";
             }
 
+            SetJointColor($sels[$i], $jointColor);
+            SetControlColor($control[0], $jointColor);
+
             rename $control[0] ($nameOfControl + "CTRL");
-            rename $controlGroup ($nameOfControl + "CTRL");
+            rename $controlGroup ($nameOfControl + "CTRL_GRP");
         }
     }
 
     else
     {
+        if($controlShape == "Circle")
+        {
+            $control = `circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1`;
+        }
 
-    circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1;
-    group;
+        else if($controlShape == "Square")
+        {
+            $control = `nurbsSquare -c 0 0 0 -nr 0 1 0 -sl1 1 -sl2 1 -sps 1 -d 3 -ch 1`;
+        }
 
+        else if($controlShape == "Flower")
+        {
+            $control = `circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1`;
+            select -r $control.cv[0] $control.cv[2] $control.cv[4] $control.cv[6] ;
+            scale -r -p 0cm 0cm 0cm -0.339442 -0.339442 -0.339442 ;
+            select $control;
+            performResetTransformations(0);
+        }
+
+        SetControlColor($control[0], $jointColor);
+        group;
     }
-    
 }
 
-CreateCircleControl();
+global proc SetJointColor(string $joint, int $color)
+{
+    print($joint);
+    setAttr ($joint + ".overrideEnabled") 1;
+    setAttr ($joint + ".overrideColor") $color;
+}
+
+global proc SetControlColor (string $control, int $color)
+{
+    print($control);
+    setAttr ($control + ".overrideEnabled") 1;
+    setAttr ($control + ".overrideColor") $color;
+}
+
+global proc string QueryMenuItem(string $objName)
+{
+    string $text = `optionMenu -q -v $objName`;
+    return $text;
+}
+
+{
+    global string $createControlWDW_ControlShape;
+    global int $createControlWDW_ControlColorIndex;
+
+    if ( `window -exists createControlWDW` ) {
+    deleteUI createControlWDW; // delete window when it exists
+    }
+    
+	string $window = `window -t "Create Control" -widthHeight 400 200 createControlWDW`;
+	columnLayout -adjustableColumn true;
+        frameLayout -label "Control" -collapsable true; 
+        $createControlWDW_ControlShape = `optionMenu -label "Control Shape"`;
+            menuItem -label "Circle";
+            menuItem -label "Square";
+            menuItem -label "Flower";
+            setParent..;
+    frameLayout -label "Color" -collapsable true;
+        gridLayout -numberOfColumns 8;
+
+            button -label "" -backgroundColor 0 0 0 -command ("$createControlWDW_ControlColorIndex = 1;");
+            button -label "" -backgroundColor 0.75 0.75 0.75 -command ("$createControlWDW_ControlColorIndex = 2;");
+            button -label "" -backgroundColor 0.5 0.5 0.5 -command ("$createControlWDW_ControlColorIndex = 3;");
+            button -label "" -backgroundColor .8 0 0.2 -command ("$createControlWDW_ControlColorIndex = 4;");
+            button -label "" -backgroundColor 0 0 .4 -command ("$createControlWDW_ControlColorIndex = 5;");
+            button -label "" -backgroundColor 0 0 1 -command ("$createControlWDW_ControlColorIndex = 6;");
+            button -label "" -backgroundColor 0 .3 0 -command ("$createControlWDW_ControlColorIndex = 7;");
+            button -label "" -backgroundColor 0.2 0 0.3 -command ("$createControlWDW_ControlColorIndex = 8;");
+            button -label "" -backgroundColor .8 0 .8 -command ("$createControlWDW_ControlColorIndex = 9;");
+            button -label "" -backgroundColor 0.6 0.3 0.2 -command ("$createControlWDW_ControlColorIndex = 10;");
+            button -label "" -backgroundColor 0.25 0.13 0.13 -command ("$createControlWDW_ControlColorIndex = 11;");
+            button -label "" -backgroundColor 0.7 .2 0 -command ("$createControlWDW_ControlColorIndex = 12;");
+            button -label "" -backgroundColor 1 0 0 -command ("$createControlWDW_ControlColorIndex = 13;");
+            button -label "" -backgroundColor 0 1 0 -command ("$createControlWDW_ControlColorIndex = 14;");
+            button -label "" -backgroundColor 0 0.3 0.6 -command ("$createControlWDW_ControlColorIndex = 15;");
+            button -label "" -backgroundColor 1 1 1 -command ("$createControlWDW_ControlColorIndex = 16;");
+            button -label "" -backgroundColor 1 1 0 -command ("$createControlWDW_ControlColorIndex = 17;");
+            button -label "" -backgroundColor 0 1 1 -command ("$createControlWDW_ControlColorIndex = 18;");
+            button -label "" -backgroundColor 0 1 .8 -command ("$createControlWDW_ControlColorIndex = 19;");
+            button -label "" -backgroundColor 1 .7 .7 -command ("$createControlWDW_ControlColorIndex = 20;");
+            button -label "" -backgroundColor 0.9 .7 .5 -command ("$createControlWDW_ControlColorIndex = 21;");
+            button -label "" -backgroundColor 1 1 0.4 -command ("$createControlWDW_ControlColorIndex = 22;");
+            button -label "" -backgroundColor 0 0.7 .4 -command ("$createControlWDW_ControlColorIndex = 23;");
+            button -label "" -backgroundColor .6 .4 .2 -command ("$createControlWDW_ControlColorIndex = 24;");
+            button -label "" -backgroundColor .63 .63 .17 -command ("$createControlWDW_ControlColorIndex = 25;");
+            button -label "" -backgroundColor 0.4 0.6 0.2 -command ("$createControlWDW_ControlColorIndex = 26;");
+            button -label "" -backgroundColor 0.2 0.63 0.35 -command ("$createControlWDW_ControlColorIndex = 27;");
+            button -label "" -backgroundColor 0.18 0.63 0.63 -command ("$createControlWDW_ControlColorIndex = 28;");
+            button -label "" -backgroundColor 0.18 0.4 0.63 -command ("$createControlWDW_ControlColorIndex = 29;");
+            button -label "" -backgroundColor 0.43 0.18 0.63 -command ("$createControlWDW_ControlColorIndex = 30;");
+            button -label "" -backgroundColor 0.63 0.18 0.4 -command ("$createControlWDW_ControlColorIndex = 31;");
+            setParent..;
+        setParent..;
+    button -label "Create Control" -command "CreateControl(`QueryMenuItem($createControlWDW_ControlShape)`, $createControlWDW_ControlColorIndex)";
+    showWindow $window;
+}
